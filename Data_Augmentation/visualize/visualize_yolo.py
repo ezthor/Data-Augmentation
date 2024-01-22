@@ -96,6 +96,6 @@ def main(image_folder, annotation_folder):
 
 
 if __name__ == "__main__":
-    image_folder = r"G:\道路危害大赛\数据集\train1112_mix_single_cls\class0\train\images"  # 图像文件夹路径
-    annotation_folder = r"G:\道路危害大赛\数据集\train1112_mix_single_cls\class0\train\labels"  # 标注文件夹路径
+    image_folder = r"G:\LangYa\Radar\Radar_datasets\not_label\3\images"  # 图像文件夹路径
+    annotation_folder = r"G:\LangYa\Radar\Radar_datasets\not_label\3\labels"  # 标注文件夹路径
     main(image_folder, annotation_folder)

@@ -1,7 +1,6 @@
 import os
 import shutil
 
-
 # 初筛图片，只保留有目标装甲板的图片
 # TODO:详细文档
 
@@ -62,7 +61,7 @@ dataset_folder = r'G:\道路危害大赛\数据集\train1112_mix'  # 替换为�
 output_base_folder = r'G:\道路危害大赛\数据集\train1112_mix_single_cls'  # 替换为所需的输出文件夹路径
 
 # 提取类别从first_cls到last_cls
-first_cls=0
+first_cls=4
 last_cls=7
 for i in range(first_cls, last_cls+1):
     extract_armor_images_and_labels(dataset_folder, output_base_folder, i)
