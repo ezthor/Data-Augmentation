@@ -1,14 +1,26 @@
 from ultralytics import YOLO
 from pathlib import Path
+import gc
+
+# 参数设置
+# 如果存在爆内存的问题，启用垃圾回收
+clear = False # True
+# 置信度阈值
+confidence = 0.35
+# 文件夹名字
+folder_name = '7'
 
 # 加载模型
-model = YOLO(r'G:\LangYa\Radar\模型\一阶段标car\best.pt')
+model = YOLO(r'G:\LangYa\Radar\模型\first_stage\20240126_pre_label_oldmodel_fine_tune_epoch65\best.pt')
 
 # 图片文件夹路径
-image_path = Path(r'G:\LangYa\Radar\Radar_datasets\not_label\3\images')
+image_path = Path(rf'G:\LangYa\Radar\Radar_datasets\to_label\pre_label\{folder_name}\images')
 
 # 标签文件夹路径
-label_path = Path(r'G:\LangYa\Radar\Radar_datasets\not_label\3\labels')
+label_path = Path(rf'G:\LangYa\Radar\Radar_datasets\to_label\pre_label\{folder_name}\labels')
+
+
+
 if not label_path.exists():
     label_path.mkdir()
 print("start")
@@ -25,9 +37,13 @@ for img_file in image_path.glob('*.jpg'):
 
         with open(label_path / f'{img_file.stem}.txt', 'w') as f:
             for box in result.boxes:
-                if box.conf > 0.5:
+                if box.conf > confidence:
                     f.write(
-                        f'{box.cls[0]} {box.xywhn[0][0]} {box.xywhn[0][1]} {box.xywhn[0][2]} {box.xywhn[0][3]}\n')
+                        f'{int(box.cls[0])} {box.xywhn[0][0]} {box.xywhn[0][1]} {box.xywhn[0][2]} {box.xywhn[0][3]}\n')
+        if clear:
+            del results
+            gc.collect()
+
     '''
     boxes	Tensor | ndarray	tensor 或包含检测框的 numpy 数组、 形状为 (num_boxes, 6) 或 (num_boxes, 7)。最后两列包含置信度和类别值。 如果存在，倒数第三列包含轨迹 ID。	所需
     '''
