@@ -38,7 +38,7 @@ def extract_images_and_labels(images_folder, labels_folder, output_folder):
             lines = file.readlines()
 
         # 检查标签文件是否包含五号装甲板类别
-        has_armor5 = any(line.startswith('1 ') or line.startswith('10 ') for line in lines)
+        has_armor5 = any(line.startswith('7 ') or line.startswith('10 ') for line in lines)
 
         if has_armor5:
             # 提取对应的图片文件
@@ -57,5 +57,5 @@ def extract_images_and_labels(images_folder, labels_folder, output_folder):
 
 # 示例用法:
 dataset_folder = r'G:\道路危害大赛\数据集\train1112_mix'  # 替换为实际的数据集文件夹路径
-output_folder = r'G:\道路危害大赛\数据集\train1112_mix_single_cls\class1'  # 替换为所需的输出文件夹路径
+output_folder = r'G:\道路危害大赛\数据集\train1112_mix_single_cls\class7'  # 替换为所需的输出文件夹路径
 extract_armor5_images_and_labels(dataset_folder, output_folder)
