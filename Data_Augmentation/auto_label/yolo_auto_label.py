@@ -1,23 +1,24 @@
 from ultralytics import YOLO
 from pathlib import Path
+from tqdm import tqdm
 import gc
 
 # 参数设置
 # 如果存在爆内存的问题，启用垃圾回收
 clear = False # True
 # 置信度阈值
-confidence = 0.35
+confidence = 0.15
 # 文件夹名字
-folder_name = '7'
+folder_name = 'auto_1'
 
 # 加载模型
-model = YOLO(r'G:\LangYa\Radar\模型\first_stage\20240126_pre_label_oldmodel_fine_tune_epoch65\best.pt')
+model = YOLO('/home/nvidia/RDDWorkspace/runs/exp_minimum/train7/weights/yolov10x-640-100.pt')
 
 # 图片文件夹路径
-image_path = Path(rf'G:\LangYa\Radar\Radar_datasets\to_label\pre_label\{folder_name}\images')
+image_path = Path(f'/home/nvidia/RDDWorkspace/data/auto_1_images')
 
 # 标签文件夹路径
-label_path = Path(rf'G:\LangYa\Radar\Radar_datasets\to_label\pre_label\{folder_name}\labels')
+label_path = Path(f'/home/nvidia/RDDWorkspace/data/auto_1_labels')
 
 
 
@@ -26,7 +27,7 @@ if not label_path.exists():
 print("start")
 # 对每张图片进行推理
 
-for img_file in image_path.glob('*.jpg'):
+for img_file in tqdm(image_path.glob('*.jpg'), desc="Processing images"):
     # 进行推理
     results = model(img_file)
 
