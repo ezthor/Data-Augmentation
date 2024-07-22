@@ -3,7 +3,7 @@ import cv2
 from tqdm import tqdm
 import os
 
-path = "/home/nvidia/RDDWorkspace/data/IMG_1049.mov"
+path = "/home/nvidia/RDDWorkspace/data/IMG_1050.mov"
 video_name = path.split('/')[-1].split('.')[0]
 video = cv2.VideoCapture(path)
 target_folder_path = "/home/nvidia/RDDWorkspace/data/auto_label/"

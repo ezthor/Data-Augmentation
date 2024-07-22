@@ -7,7 +7,7 @@ import gc
 # 如果存在爆内存的问题，启用垃圾回收
 clear = False # True
 # 置信度阈值
-confidence = 0.15
+confidence = 0.25
 # 文件夹名字
 folder_name = 'auto_1'
 
@@ -15,10 +15,18 @@ folder_name = 'auto_1'
 model = YOLO('/home/nvidia/RDDWorkspace/runs/exp_minimum/train7/weights/yolov10x-640-100.pt')
 
 # 图片文件夹路径
-image_path = Path(f'/home/nvidia/RDDWorkspace/data/auto_1_images')
+ori_path = f'/home/nvidia/RDDWorkspace/data/auto_label/IMG_1050'
+
+image_path = Path(ori_path)
+
+image_path = image_path / 'images'
+
 
 # 标签文件夹路径
-label_path = Path(f'/home/nvidia/RDDWorkspace/data/auto_1_labels')
+label_path = image_path.parent / 'labels'
+
+
+
 
 
 
@@ -26,11 +34,10 @@ if not label_path.exists():
     label_path.mkdir()
 print("start")
 # 对每张图片进行推理
-
-for img_file in tqdm(image_path.glob('*.jpg'), desc="Processing images"):
-    # 进行推理
-    results = model(img_file)
-
+total_images = len(list(image_path.glob('*.jpg')))
+for img_file in tqdm(image_path.glob('*.jpg'), total=total_images,desc="Processing images"):
+    # 将输出print信息关闭
+    results = model(img_file ,verbose=False)
     # 遍历所有预测结果,如果置信度大于0.5,则把xywhn保存到txt文件中
     # 每个results是一个图片的预测结果，result是总的，有一个总的boxes，每一个box是一个目标，一个目标有一个conf，有一个xywhn，xywhn感觉是tensor，要[0][index]才能把四个存入
     # box.cls是tensor([0.], device='cuda:0'),要[0]才能把0存入
