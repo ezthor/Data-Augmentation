@@ -1,11 +1,12 @@
 name: chatgpt-lr-package
 on:
-  push:
-    branches: [chatgpt-temp-lr-package-20260824]
+  pull_request:
+    branches: [main]
 permissions:
   contents: read
 jobs:
   package:
+    if: github.head_ref == 'chatgpt-temp-lr-package-20260824'
     runs-on: ubuntu-latest
     steps:
       - name: Download peva3 package
