@@ -1,0 +1,22 @@
+name: chatgpt-lr-package
+on:
+  push:
+    branches: [chatgpt-temp-lr-package-20260824]
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download peva3 package
+        run: |
+          mkdir -p out
+          curl -L --fail --retry 3 -o out/peva3.zip https://raw.githubusercontent.com/peva3/Lightroom-Presets/v3.1.0/lr-presets-all.xmp.zip
+          unzip -q out/peva3.zip -d out/peva3
+          find out/peva3 -type f -iname '*.xmp' | wc -l
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: peva3-lightroom-presets
+          path: out/peva3.zip
+          retention-days: 1
